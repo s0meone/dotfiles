@@ -1,0 +1,22 @@
+[user]
+	name = Daniel van Hoesel
+	email = daniel@danielvanhoesel.nl
+[color]
+	ui = true
+[core]
+	quotepath = false
+	excludesfile = /Users/daniel/.gitignore
+[github]
+	user = s0meone
+[push]
+	default = current
+[merge]
+	ff = false
+[filter "lfs"]
+	clean = git-lfs clean %f
+	smudge = git-lfs smudge %f
+	required = true
+[commit]
+	gpgsign = true
+[gpg]
+	program = /usr/local/bin/gpg

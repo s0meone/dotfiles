@@ -1,0 +1,9 @@
+log
+tags
+tmp
+*.log
+*.jmx
+fitnesse/*
+*.min.*
+*.bak/*
+*.png
