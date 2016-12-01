@@ -39,9 +39,8 @@ export WORKSPACE_PATH=/Users/daniel/Development/
 export TMUX_WORKSPACES_PATH=/Users/daniel/.tmux_workspaces/
 export EDITOR='/usr/local/bin/vim'
 
-export PATH=/usr/local/mysql/bin:/usr/local/sbin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/X11/bin:~/Development/Tools/jakarta-jmeter-2.4/bin
+export PATH=/usr/local/mysql/bin:/usr/local/sbin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/X11/bin
 export PATH="/usr/local/heroku/bin:$PATH"
-export PATH="/usr/local/share/npm/bin:$PATH"
 export PATH="$HOME/.rbenv/bin:$PATH"
 
 eval "$(rbenv init - zsh)";
