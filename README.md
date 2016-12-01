@@ -20,3 +20,4 @@ My setup includes the following main components:
  * `tmuxinator`
  * `vim`
  * `zsh`
+ * `zsh-syntax-highlighter`

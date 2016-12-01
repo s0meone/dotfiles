@@ -10,7 +10,7 @@ setopt   histignoredups
 COMPLETION_WAITING_DOTS="true"
 DISABLE_AUTO_TITLE="true"
 
-plugins=(git bundler npm zsh-syntax-highlighting)
+plugins=(git bundler npm)
 
 autoload -U zmv
 
@@ -68,3 +68,12 @@ preexec () {
 
 # Load avn
 [[ -s "$HOME/.avn/bin/avn.sh" ]] && source "$HOME/.avn/bin/avn.sh"
+
+# Load zsh highlighter
+
+typeset -A ZSH_HIGHLIGHT_STYLES
+ZSH_HIGHLIGHT_STYLES[command]='none'
+ZSH_HIGHLIGHT_STYLES[function]='none'
+ZSH_HIGHLIGHT_STYLES[alias]='none'
+ZSH_HIGHLIGHT_STYLES[builtin]='none'
+source /usr/local/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
