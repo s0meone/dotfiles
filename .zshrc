@@ -64,6 +64,7 @@ _ws() {
 
 compdef _tws tws
 compdef _ws ws
+compdef dotfiles=git
 
 precmd () {
   print -Pn "\e]0;\a"
