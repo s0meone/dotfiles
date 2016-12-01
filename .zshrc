@@ -7,14 +7,10 @@ setopt   appendhistory
 setopt   extendedhistory
 setopt   histignoredups
 
-# Uncomment following line if you want red dots to be displayed while waiting for completion
 COMPLETION_WAITING_DOTS="true"
 DISABLE_AUTO_TITLE="true"
 
-# change keyboard delay
-export KEYTIMEOUT=1
-
-plugins=(git bundler zsh-syntax-highlighting)
+plugins=(git bundler npm zsh-syntax-highlighting)
 
 autoload -U zmv
 
@@ -36,8 +32,11 @@ alias nrs='npm run --silent $*'
 alias dotfiles='/usr/bin/git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME'
 
 export WORKSPACE_PATH=/Users/daniel/Development/
-export TMUX_WORKSPACES_PATH=/Users/daniel/.tmux_workspaces/
 export EDITOR='/usr/local/bin/vim'
+export EVENT_NOKQUEUE=1
+export JAVA_HOME=$(/usr/libexec/java_home -v 1.8)
+export NVM_DIR="/Users/daniel/.nvm"
+export KEYTIMEOUT=1
 
 export PATH=/usr/local/mysql/bin:/usr/local/sbin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/X11/bin
 export PATH="/usr/local/heroku/bin:$PATH"
@@ -50,19 +49,10 @@ function ws {
   export CURRENT_WORKSPACE=$WORKSPACE_PATH$1
 }
 
-function tws {
-  tmux source-file "$TMUX_WORKSPACES_PATH$1"
-}
-
-_tws() {
-  _files -W $TMUX_WORKSPACES_PATH
-}
-
 _ws() {
   _files -W $WORKSPACE_PATH
 }
 
-compdef _tws tws
 compdef _ws ws
 compdef dotfiles=git
 
@@ -73,32 +63,8 @@ preexec () {
   print -Pn "\e]0; $1\a"
 }
 
-if [[ ! -o interactive ]]; then
-  return
-fi
+# Load nvm
+[ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"
 
-# compctl -K _tmuxinator tmuxinator mux
-
-_tmuxinator() {
-  local words completions
-  read -cA words
-
-  if [ "${#words}" -eq 2 ]; then
-    completions="$(tmuxinator commands)"
-  else
-    completions="$(tmuxinator completions ${words[2,-2]})"
-  fi
-
-  reply=("${(ps:\n:)completions}")
-}
-
-# fix tmux something
-export EVENT_NOKQUEUE=1
-
-# Set Current Java
-export JAVA_HOME=$(/usr/libexec/java_home -v 1.8)
-
-export NVM_DIR="/Users/daniel/.nvm"
-[ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"  # This loads nvm
-
-[[ -s "$HOME/.avn/bin/avn.sh" ]] && source "$HOME/.avn/bin/avn.sh" # load avn
+# Load avn
+[[ -s "$HOME/.avn/bin/avn.sh" ]] && source "$HOME/.avn/bin/avn.sh"
