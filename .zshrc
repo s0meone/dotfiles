@@ -10,7 +10,7 @@ setopt   histignoredups
 COMPLETION_WAITING_DOTS="true"
 DISABLE_AUTO_TITLE="true"
 
-plugins=(git bundler npm)
+plugins=(git bundler npm tmuxinator)
 
 autoload -U zmv
 
@@ -30,6 +30,7 @@ alias gitx='echo "You are not using gitx for ages now, use gittower"'
 alias uuid="/usr/local/bin/uuid | tr -d '\n' | pbcopy && pbpaste && echo"
 alias nrs='npm run --silent $*'
 alias dotfiles='/usr/bin/git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME'
+alias t='tmuxinator'
 
 export WORKSPACE_PATH=/Users/daniel/Development/
 export EDITOR='/usr/local/bin/vim'
@@ -55,6 +56,7 @@ _ws() {
 
 compdef _ws ws
 compdef dotfiles=git
+compdef t=tmuxinator
 
 precmd () {
   print -Pn "\e]0;\a"

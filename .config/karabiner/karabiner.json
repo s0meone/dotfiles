@@ -1,0 +1,72 @@
+{
+    "profiles": [
+        {
+            "devices": [
+                {
+                    "disable_built_in_keyboard_if_exists": false,
+                    "identifiers": {
+                        "is_keyboard": true,
+                        "is_pointing_device": false,
+                        "product_id": 50475,
+                        "vendor_id": 1133
+                    },
+                    "ignore": true
+                },
+                {
+                    "disable_built_in_keyboard_if_exists": false,
+                    "identifiers": {
+                        "is_keyboard": true,
+                        "is_pointing_device": false,
+                        "product_id": 632,
+                        "vendor_id": 1452
+                    },
+                    "ignore": true
+                },
+                {
+                    "disable_built_in_keyboard_if_exists": false,
+                    "identifiers": {
+                        "is_keyboard": true,
+                        "is_pointing_device": false,
+                        "product_id": 65535,
+                        "vendor_id": 1452
+                    },
+                    "ignore": true
+                },
+                {
+                    "disable_built_in_keyboard_if_exists": false,
+                    "identifiers": {
+                        "is_keyboard": true,
+                        "is_pointing_device": false,
+                        "product_id": 617,
+                        "vendor_id": 1241
+                    },
+                    "ignore": false
+                }
+            ],
+            "fn_function_keys": {
+                "f1": "f1",
+                "f10": "play_or_pause",
+                "f11": "fastforward",
+                "f12": "eject",
+                "f2": "f2",
+                "f3": "mission_control",
+                "f4": "f4",
+                "f5": "f5",
+                "f6": "f6",
+                "f7": "f7",
+                "f8": "f8",
+                "f9": "rewind"
+            },
+            "name": "Default profile",
+            "selected": true,
+            "simple_modifications": {
+                "f13": "mute",
+                "f14": "volume_down",
+                "f15": "volume_up"
+            },
+            "virtual_hid_keyboard": {
+                "keyboard_type": "ansi"
+            }
+        }
+    ]
+}
