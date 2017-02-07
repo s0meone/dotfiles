@@ -1,4 +1,9 @@
 {
+    "global": {
+        "check_for_updates_on_startup": true,
+        "show_in_menu_bar": false,
+        "show_profile_name_in_menu_bar": false
+    },
     "profiles": [
         {
             "devices": [
@@ -65,6 +70,7 @@
                 "f15": "volume_up"
             },
             "virtual_hid_keyboard": {
+                "caps_lock_delay_milliseconds": 0,
                 "keyboard_type": "ansi"
             }
         }
