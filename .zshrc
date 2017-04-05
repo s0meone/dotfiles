@@ -27,7 +27,7 @@ alias ws='nocorrect ws'
 alias prune_branches='git checkout master && git fetch && git remote prune origin && git branch --merged master | grep -v "master$" | xargs git branch -d'
 alias prune_branches_remote="git branch -r --merged | grep -v master | sed 's/origin\///' | xargs -n 1 git push --delete origin"
 alias gitx='echo "You are not using gitx for ages now, use gittower"'
-alias uuid="/usr/local/bin/uuid | tr -d '\n' | pbcopy && pbpaste && echo"
+alias uuid="uuidgen | tr -d '\n' | tr '[:upper:]' '[:lower:]' | pbcopy && pbpaste && echo"
 alias nrs='npm run --silent $*'
 alias dotfiles='/usr/bin/git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME'
 alias t='tmuxinator'
