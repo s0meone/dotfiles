@@ -18,6 +18,7 @@ Plugin 'tpope/vim-rbenv'
 Plugin 'tpope/vim-surround'
 Plugin 'tpope/vim-fugitive'
 Plugin 'tpope/vim-abolish'
+Plugin 'tpope/vim-haml'
 Plugin 'ctrlpvim/ctrlp.vim'
 Plugin 'altercation/vim-colors-solarized'
 Plugin 'christoomey/vim-tmux-navigator'
@@ -25,24 +26,22 @@ Plugin 'benmills/vimux'
 Plugin 'jgdavey/vim-turbux'
 Plugin 'scrooloose/syntastic'
 Plugin 'othree/xml.vim'
-Plugin 'edsono/vim-matchit'
+Plugin 'geoffharcourt/vim-matchit'
 Plugin 'cakebaker/scss-syntax.vim'
 Plugin 'hail2u/vim-css3-syntax'
-Plugin 'pangloss/vim-javascript'
 Plugin 'kana/vim-textobj-user'
 Plugin 'kana/vim-textobj-entire'
 Plugin 'nelstrom/vim-textobj-rubyblock'
-Plugin 'mattn/webapi-vim'
-Plugin 'mattn/gist-vim'
 Plugin 'nathanaelkane/vim-indent-guides'
 Plugin 'Keithbsmiley/rspec.vim'
-Plugin 'tpope/vim-haml'
 Plugin 'tomtom/tcomment_vim'
 Plugin 'AndrewRadev/switch.vim'
 Plugin 'kchmck/vim-coffee-script'
+Plugin 'pangloss/vim-javascript'
+" Plugin 'othree/yajs.vim'
 Plugin 'mxw/vim-jsx'
+Plugin 'fleischie/vim-styled-components'
 Plugin 'groenewege/vim-less'
-" Plugin 'flowtype/vim-flow'
 Plugin 'pearofducks/ansible-vim'
 
 call vundle#end()
@@ -116,7 +115,12 @@ let g:switch_custom_definitions =
       \ [
       \   ['it', 'xit'],
       \   ['if', 'unless'],
-      \   ['context', 'describe']
+      \   ['context', 'describe'],
+      \   {
+      \     '"\(.\{-}\)"': '`\1`',
+      \     '`\(.\{-}\)`': '{`\1`}',
+      \     '{`\(.\{-}\)`}': '"\1"',
+      \   }
       \ ]
 
 " config syntastic
@@ -362,3 +366,11 @@ nnoremap <Leader>rr :w<cr>:SyntasticCheck rubocop<cr>
 nnoremap <leader>p p`[v`]=
 " this mapping: change inside entire file, is annoyingly close to ciw
 nnoremap cie ciw
+" replace text without overwriting register
+vnoremap <leader>p "_dP
+" sort
+vnoremap <leader>s :sort<cr>
+" <leader>w saves all files
+noremap <leader>w :wa<cr>
+" <leader>= reformats whole file
+noremap <leader>= gg=G<C-o><C-o>

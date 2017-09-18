@@ -31,6 +31,7 @@ alias uuid="uuidgen | tr -d '\n' | tr '[:upper:]' '[:lower:]' | pbcopy && pbpast
 alias nrs='npm run --silent $*'
 alias dotfiles='/usr/bin/git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME'
 alias t='tmuxinator'
+alias ip='echo $(curl -s https://api.ipify.org)'
 
 export WORKSPACE_PATH=/Users/daniel/Development/
 export EDITOR='/usr/local/bin/vim'
@@ -40,6 +41,7 @@ export NVM_DIR="/Users/daniel/.nvm"
 export KEYTIMEOUT=1
 
 export PATH=/usr/local/mysql/bin:/usr/local/sbin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/X11/bin
+export PATH="/usr/local/opt/qt@5.5/bin:$PATH"
 export PATH="/usr/local/heroku/bin:$PATH"
 export PATH="$HOME/.rbenv/bin:$PATH"
 
@@ -62,7 +64,7 @@ precmd () {
   print -Pn "\e]0;\a"
 }
 preexec () {
-  print -Pn "\e]0; $1\a"
+  print -Pn "\e]0;$1\a"
 }
 
 # Load nvm
