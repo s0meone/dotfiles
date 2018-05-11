@@ -24,7 +24,8 @@ Plugin 'altercation/vim-colors-solarized'
 Plugin 'christoomey/vim-tmux-navigator'
 Plugin 'benmills/vimux'
 Plugin 'jgdavey/vim-turbux'
-Plugin 'scrooloose/syntastic'
+" Plugin 'scrooloose/syntastic'
+Plugin 'w0rp/ale'
 Plugin 'othree/xml.vim'
 Plugin 'geoffharcourt/vim-matchit'
 Plugin 'cakebaker/scss-syntax.vim'
@@ -106,6 +107,13 @@ else
   let &t_EI = "\<Esc>]50;CursorShape=0\x7"
 endif
 
+" fix mouse after column 223
+if has("mouse_sgr")
+    set ttymouse=sgr
+else
+    set ttymouse=xterm2
+end
+
 " configure ruby indent
 let g:ruby_indent_access_modifier_style = 'outdent'
 
@@ -123,13 +131,13 @@ let g:switch_custom_definitions =
       \   }
       \ ]
 
-" config syntastic
-let g:syntastic_check_on_open=1
-let g:syntastic_enable_signs=1
-let g:syntastic_ruby_exec='/usr/local/opt/rbenv/versions/2.2.2/bin/ruby'
-let g:syntastic_ignore_files=['^/usr/include/', '\c\.scss$', '\c\.sass$', '\c\.html.erb$']
-" let g:syntastic_ruby_checkers = ['mri', 'rubocop']
-let g:syntastic_javascript_checkers = ['flow', 'eslint']
+" " config syntastic
+" let g:syntastic_check_on_open=1
+" let g:syntastic_enable_signs=1
+" let g:syntastic_ruby_exec='/usr/local/opt/rbenv/versions/2.2.2/bin/ruby'
+" let g:syntastic_ignore_files=['^/usr/include/', '\c\.scss$', '\c\.sass$', '\c\.html.erb$']
+" " let g:syntastic_ruby_checkers = ['mri', 'rubocop']
+" let g:syntastic_javascript_checkers = ['flow', 'eslint']
 
 " configure ctrlp
 let g:ctrlp_custom_ignore = {
@@ -165,6 +173,18 @@ silent execute '!mkdir -p ~/.vim/backup'
 silent execute '!mkdir -p ~/.vim/tmp'
 silent execute '!mkdir -p ~/.vim/undo'
 
+function! LinterStatus() abort
+    let l:counts = ale#statusline#Count(bufnr(''))
+
+    " let l:all_errors = l:counts.error + l:counts.style_error
+    " let l:all_non_errors = l:counts.total - l:all_errors
+
+    return l:counts.total == 0 ? '' : printf(
+    \   '[%d errors]',
+    \   counts.total
+    \)
+endfunction
+
 " statusline configuration
 set statusline=[%c,%l/%L]                       " show current position and line count as: [column,current/total]
 set statusline+=%{&readonly?'\ [READ-ONLY]':''} " show readonly indicator
@@ -176,7 +196,7 @@ set statusline+=%*
 set statusline+=\ %y                            " show file type
 set statusline+=\ [%t]                          " show file name
 set statusline+=\ %#warningmsg#                 " change the color to red
-set statusline+=%{SyntasticStatuslineFlag()}    " show syntax errors
+set statusline+=%{LinterStatus()}               " show syntax errors
 set statusline+=%*                              " reset color
 " set statusline+=%=                              " align on the right
 " set statusline+=\ [%b][0x%B]                    " ASCII and byte code under cursor
@@ -283,6 +303,9 @@ call togglebg#map("<F7>")
 let NERDTreeIgnore=['\.git$', 'node_modules', '\.DS_Store$']
 let NERDTreeShowHidden=1
 
+" enable flow in javascript
+let g:javascript_plugin_flow = 1
+
 " keymappings
 "
 " ,ss strip whitespace
@@ -374,3 +397,7 @@ vnoremap <leader>s :sort<cr>
 noremap <leader>w :wa<cr>
 " <leader>= reformats whole file
 noremap <leader>= gg=G<C-o><C-o>
+" exit now
+nnoremap <C-d> :q<cr>
+" do not include trailing/leading whitespace when selecting quoted strings
+nnoremap va" v2i"

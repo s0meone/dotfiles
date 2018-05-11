@@ -10,7 +10,7 @@ setopt   histignoredups
 COMPLETION_WAITING_DOTS="true"
 DISABLE_AUTO_TITLE="true"
 
-plugins=(git bundler npm tmuxinator)
+plugins=(git bundler npm tmuxinator sudo)
 
 autoload -U zmv
 
@@ -32,6 +32,7 @@ alias nrs='npm run --silent $*'
 alias dotfiles='/usr/bin/git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME'
 alias t='tmuxinator'
 alias ip='echo $(curl -s https://api.ipify.org)'
+alias thinkas="sudo nmap -T5 -sS -oG - -p 51822 192.168.178.0/24 | grep 51822/open | cut -f1 -d$'\t'"
 
 export WORKSPACE_PATH=/Users/daniel/Development/
 export EDITOR='/usr/local/bin/vim'
@@ -81,3 +82,5 @@ ZSH_HIGHLIGHT_STYLES[function]='none'
 ZSH_HIGHLIGHT_STYLES[alias]='none'
 ZSH_HIGHLIGHT_STYLES[builtin]='none'
 source /usr/local/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+
+test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
