@@ -10,7 +10,7 @@ setopt   histignoredups
 COMPLETION_WAITING_DOTS="true"
 DISABLE_AUTO_TITLE="true"
 
-plugins=(git bundler npm tmuxinator sudo)
+plugins=(git bundler npm sudo)
 
 autoload -U zmv
 
@@ -30,7 +30,6 @@ alias gitx='echo "You are not using gitx for ages now, use gittower"'
 alias uuid="uuidgen | tr -d '\n' | tr '[:upper:]' '[:lower:]' | pbcopy && pbpaste && echo"
 alias nrs='npm run --silent $*'
 alias dotfiles='/usr/bin/git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME'
-alias t='tmuxinator'
 alias ip='echo $(curl -s https://api.ipify.org)'
 alias thinkas="sudo nmap -T5 -sS -oG - -p 51822 192.168.178.0/24 | grep 51822/open | cut -f1 -d$'\t'"
 
@@ -41,7 +40,7 @@ export JAVA_HOME=$(/usr/libexec/java_home -v 1.8)
 export NVM_DIR="/Users/daniel/.nvm"
 export KEYTIMEOUT=1
 
-export PATH=/usr/local/mysql/bin:/usr/local/sbin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/X11/bin
+export PATH=/usr/local/sbin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/X11/bin
 export PATH="/usr/local/opt/qt@5.5/bin:$PATH"
 export PATH="/usr/local/heroku/bin:$PATH"
 export PATH="$HOME/.rbenv/bin:$PATH"
@@ -59,8 +58,37 @@ _ws() {
 
 compdef _ws ws
 compdef dotfiles=git
-compdef t=tmuxinator
 
+_tmuxinator() {
+  local commands projects
+  commands=(${(f)"$(tmuxinator commands zsh)"})
+  projects=(${(f)"$(tmuxinator completions start)"})
+
+  if (( CURRENT == 2 )); then
+    _alternative \
+      'commands:: _describe -t commands "tmuxinator subcommands" commands' \
+      'projects:: _describe -t projects "tmuxinator projects" projects'
+  elif (( CURRENT == 3)); then
+    case $words[2] in
+      copy|debug|delete|open|start)
+        _arguments '*:projects:($projects)'
+      ;;
+    esac
+  fi
+
+  return
+}
+
+compdef _tmuxinator tmuxinator t
+alias t="tmuxinator"
+
+# Local Variables:
+# mode: Shell-Script
+# sh-indentation: 2
+# indent-tabs-mode: nil
+# sh-basic-offset: 2
+# End:
+# vim: ft=zsh sw=2 ts=2 et
 precmd () {
   print -Pn "\e]0;\a"
 }
@@ -75,12 +103,9 @@ preexec () {
 [[ -s "$HOME/.avn/bin/avn.sh" ]] && source "$HOME/.avn/bin/avn.sh"
 
 # Load zsh highlighter
-
 typeset -A ZSH_HIGHLIGHT_STYLES
 ZSH_HIGHLIGHT_STYLES[command]='none'
 ZSH_HIGHLIGHT_STYLES[function]='none'
 ZSH_HIGHLIGHT_STYLES[alias]='none'
 ZSH_HIGHLIGHT_STYLES[builtin]='none'
 source /usr/local/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
-
-test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
