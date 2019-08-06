@@ -1,60 +1,71 @@
-let t_Co=256
+let mapleader = " "
 
 set nocompatible
 filetype off
 set rtp+=~/.vim/bundle/Vundle.vim
 call vundle#begin()
 
-Plugin 'VundleVim/Vundle.vim'
-Plugin 'vim-ruby/vim-ruby'
-Plugin 'scrooloose/nerdtree'
-Plugin 'tpope/vim-rails'
-Plugin 'tpope/vim-projectionist'
-Plugin 'tpope/vim-rake'
-Plugin 'tpope/vim-endwise'
-Plugin 'tpope/vim-bundler'
-Plugin 'tpope/vim-repeat'
-Plugin 'tpope/vim-rbenv'
-Plugin 'tpope/vim-surround'
-Plugin 'tpope/vim-fugitive'
-Plugin 'tpope/vim-abolish'
-Plugin 'tpope/vim-haml'
-Plugin 'ctrlpvim/ctrlp.vim'
-Plugin 'altercation/vim-colors-solarized'
-Plugin 'christoomey/vim-tmux-navigator'
-Plugin 'benmills/vimux'
-Plugin 'jgdavey/vim-turbux'
-" Plugin 'scrooloose/syntastic'
-Plugin 'w0rp/ale'
-Plugin 'othree/xml.vim'
-Plugin 'geoffharcourt/vim-matchit'
-Plugin 'cakebaker/scss-syntax.vim'
-Plugin 'hail2u/vim-css3-syntax'
-Plugin 'kana/vim-textobj-user'
-Plugin 'kana/vim-textobj-entire'
-Plugin 'nelstrom/vim-textobj-rubyblock'
-Plugin 'nathanaelkane/vim-indent-guides'
-Plugin 'Keithbsmiley/rspec.vim'
-Plugin 'tomtom/tcomment_vim'
-Plugin 'AndrewRadev/switch.vim'
-Plugin 'kchmck/vim-coffee-script'
-Plugin 'pangloss/vim-javascript'
-" Plugin 'othree/yajs.vim'
-Plugin 'mxw/vim-jsx'
-Plugin 'fleischie/vim-styled-components'
-Plugin 'groenewege/vim-less'
-Plugin 'pearofducks/ansible-vim'
+" Core
+Plugin 'VundleVim/Vundle.vim'              " Plugin manager
+
+" Languages
+Plugin 'tpope/vim-haml'                    " HAML, SASS, SCSS highlighting
+Plugin 'vim-ruby/vim-ruby'                 " Ruby highlighting
+Plugin 'hail2u/vim-css3-syntax'            " CSS3 highlighting
+Plugin 'pangloss/vim-javascript'           " JavaScript highlighting
+Plugin 'HerringtonDarkholme/yats.vim'      " TypeScript highlighting
+Plugin 'mxw/vim-jsx'                       " JSX highlighting
+Plugin 'fleischie/vim-styled-components'   " StyledComponents highlighting
+Plugin 'pearofducks/ansible-vim'           " Ansible highlighting
+Plugin 'tpope/vim-rails'                   " Rails helpers
+Plugin 'Keithbsmiley/rspec.vim'            " RSpec helpers
+Plugin 'lmeijvogel/vim-yaml-helper'        " YAML helpers
+
+" Features
+Plugin 'lifepillar/vim-solarized8'         " Colorscheme
+Plugin 'scrooloose/nerdtree'               " Project drawer
+Plugin 'tpope/vim-projectionist'           " Add switching to alternative files easier
+Plugin 'tpope/vim-endwise'                 " Add smart end to Ruby methods
+Plugin 'tpope/vim-repeat'                  " Add smart repeat
+Plugin 'tpope/vim-surround'                " Add/replace/remove surrounding quotes etc
+Plugin 'tpope/vim-fugitive'                " Add git integration
+Plugin 'tpope/vim-abolish'                 " Add smart search/replace
+Plugin 'ctrlpvim/ctrlp.vim'                " Fuzzy search
+Plugin 'christoomey/vim-tmux-navigator'    " Navigate in and out tmux panels and vim buffers
+Plugin 'benmills/vimux'                    " Run commands in tmux
+Plugin 'jgdavey/vim-turbux'                " Run spec in tmux
+Plugin 'w0rp/ale'                          " Lint/Syntax/Error checker
+Plugin 'geoffharcourt/vim-matchit'         " Extend % to match more
+Plugin 'kana/vim-textobj-user'             " Basis for creating textobjects
+Plugin 'kana/vim-textobj-entire'           " Text object for entire file
+Plugin 'nelstrom/vim-textobj-rubyblock'    " Text objects for Ruby methods
+Plugin 'nathanaelkane/vim-indent-guides'   " Indent guides
+Plugin 'tomtom/tcomment_vim'               " Smart code comments
+Plugin 'AndrewRadev/switch.vim'            " Switch text
+Plugin 'yssl/QFEnter'                      " Allow key mappings in Quicklist and Location list
+Plugin 'chrisbra/Colorizer'                " Show color codes as colors inline
+
+" Not needed?
+" Plugin 'cakebaker/scss-syntax.vim'
+" Plugin 'tpope/vim-bundler'
+" Plugin 'tpope/vim-rbenv'
+" Plugin 'othree/xml.vim'
 
 call vundle#end()
-syntax enable
 
-filetype on
-filetype plugin on
+syntax enable
 filetype plugin indent on
 
-" Solarized stuff
+" Styling stuff
+set termguicolors
+let &t_8f = "\<Esc>[38;2;%lu;%lu;%lum"
+let &t_8b = "\<Esc>[48;2;%lu;%lu;%lum"
+set fillchars+=vert:│
 set background=dark
-colorscheme solarized
+colorscheme solarized8
+
+" <F7> toggles background mode
+map <F7> :let &background = ( &background == "dark"? "light" : "dark" )<CR>
 
 set backup                         " enable backup
 set undofile                       " enable persistent undo
@@ -66,7 +77,6 @@ set showmatch                      " show matching braces
 set ruler                          " always show the line info
 set hlsearch                       " highlight search results
 set incsearch                      " search as the expression is being typed
-" set ignorecase                     " ignore case when searching and autocompleting
 set number                         " show line numbers
 set noerrorbells                   " beeps = no
 set visualbell                     " visual bellz
@@ -83,7 +93,7 @@ set backspace=indent,eol,start     " backspace through everything in insert mode
 set laststatus=2                   " always show the status window
 set linespace=0                    " set linespace to 0 so it looks pleasing
 set nocursorline                   " do not highlight current line
-set lazyredraw                     " redraw faster
+set nolazyredraw                   " redraw faster
 set synmaxcol=1024                 " don't highlight long lines
 set switchbuf=useopen              " switch focus to buffer instead of opening a new split
 set splitbelow                     " more natural splits
@@ -95,7 +105,7 @@ set scrolloff=5                    " keep some distance to the bottom"
 set wildmode=longest,list,full     " better command line autocomplete
 set nohidden                       " remove buffer when closed
 set ttyfast                        " we have a fast terminal
-set colorcolumn=115                " 115 is the Github width
+set colorcolumn=115                " 115 is the GitHub width
 set autoread                       " reload files only changed outside vim from disk
 
 " change cursor when in insert mode (also works in tmux)
@@ -115,7 +125,7 @@ else
 end
 
 " configure ruby indent
-let g:ruby_indent_access_modifier_style = 'outdent'
+" let g:ruby_indent_access_modifier_style = 'outdent'
 
 " configure switch.vim
 let g:switch_mapping = '-'
@@ -131,13 +141,11 @@ let g:switch_custom_definitions =
       \   }
       \ ]
 
-" " config syntastic
-" let g:syntastic_check_on_open=1
-" let g:syntastic_enable_signs=1
-" let g:syntastic_ruby_exec='/usr/local/opt/rbenv/versions/2.2.2/bin/ruby'
-" let g:syntastic_ignore_files=['^/usr/include/', '\c\.scss$', '\c\.sass$', '\c\.html.erb$']
-" " let g:syntastic_ruby_checkers = ['mri', 'rubocop']
-" let g:syntastic_javascript_checkers = ['flow', 'eslint']
+" configure qfenter
+let g:qfenter_keymap = {}
+let g:qfenter_keymap.vopen = ['<C-v>']
+let g:qfenter_keymap.hopen = ['<C-CR>', '<C-s>', '<C-x>']
+let g:qfenter_keymap.topen = ['<C-t>']
 
 " configure ctrlp
 let g:ctrlp_custom_ignore = {
@@ -145,11 +153,12 @@ let g:ctrlp_custom_ignore = {
   \ 'file': '\.exe$\|\.so$\|\.dat$'
   \ }
 let g:ctrlp_root_markers = ['.ctrlp']
+let g:ctrlp_cmd = 'CtrlPMixed'
+let g:ctrlp_mruf_relative = 1
 
-if executable('ag')
-  set grepprg=ag\ --nogroup\ --nocolor
-  let g:ctrlp_user_command = 'ag %s -l --nocolor -g ""'
-endif
+" configure search
+set grepprg=ag\ --nogroup\ --nocolor
+let g:ctrlp_user_command = 'ag %s -l --nocolor -g ""'
 
 " make switching modes fast again
 if ! has('gui_running')
@@ -162,11 +171,11 @@ if ! has('gui_running')
 endif
 
 " configure git commit messages
-autocmd Filetype gitcommit setlocal spell textwidth=72
-autocmd Filetype gitcommit setlocal colorcolumn=72
+autocmd FileType gitcommit setlocal spell textwidth=72
+autocmd FileType gitcommit setlocal colorcolumn=72
 
 " do not write backup files for crontab
-autocmd filetype crontab setlocal nobackup nowritebackup
+autocmd FileType crontab setlocal nobackup nowritebackup
 
 " create temp/backup directories if they don't exist
 silent execute '!mkdir -p ~/.vim/backup'
@@ -174,16 +183,31 @@ silent execute '!mkdir -p ~/.vim/tmp'
 silent execute '!mkdir -p ~/.vim/undo'
 
 function! LinterStatus() abort
-    let l:counts = ale#statusline#Count(bufnr(''))
+  let l:counts = ale#statusline#Count(bufnr(''))
 
-    " let l:all_errors = l:counts.error + l:counts.style_error
-    " let l:all_non_errors = l:counts.total - l:all_errors
-
-    return l:counts.total == 0 ? '' : printf(
-    \   '[%d errors]',
-    \   counts.total
-    \)
+  return l:counts.total == 0 ? '' : printf(
+        \   '[%d %s]',
+        \   counts.total,
+        \   l:counts.total == 1 ? 'error' : 'errors'
+        \)
 endfunction
+
+let g:ale_fixers = {
+      \  'javascript': ['prettier'],
+      \  'typescript': ['prettier'],
+      \  'css': ['prettier'],
+      \  'ruby': ['prettier']
+      \}
+
+let g:ale_sign_error = '»'
+let g:ale_sign_warning = '»'
+let g:ale_sign_column_always = 1
+let g:ale_fix_on_save = 1
+
+augroup loclistwrap
+  autocmd!
+  autocmd FileType qf setlocal wrap linebreak
+augroup END
 
 " statusline configuration
 set statusline=[%c,%l/%L]                       " show current position and line count as: [column,current/total]
@@ -195,14 +219,9 @@ set statusline+=%{&modified?'\[MODIFIED]':''}   " show modified indicator
 set statusline+=%*
 set statusline+=\ %y                            " show file type
 set statusline+=\ [%t]                          " show file name
-set statusline+=\ %#warningmsg#                 " change the color to red
+set statusline+=\ %#modified#                   " change the color to red
 set statusline+=%{LinterStatus()}               " show syntax errors
 set statusline+=%*                              " reset color
-" set statusline+=%=                              " align on the right
-" set statusline+=\ [%b][0x%B]                    " ASCII and byte code under cursor
-" set statusline+=\ %{fugitive#statusline()}      " show git status
-
-let mapleader = " "
 
 " custom functions
 function! StripWhitespace()
@@ -263,48 +282,65 @@ augroup end
 let g:indent_guides_auto_colors = 0
 
 func! SetCustomColors()
-  " highlight useless spaces
-  highlight ExtraWhitespace ctermbg=darkgreen guibg=darkgreen
+  highlight clear SignColumn
+  highlight clear ALEErrorSign
+  highlight clear ALEWarningSign
+  highlight clear VertSplit
 
-  " define custom colors
-  highlight WarningMsg term=bold cterm=bold ctermfg=7 ctermbg=9
-  highlight Modified term=bold cterm=bold ctermfg=7 ctermbg=9
-
-  syn keyword grapeKeyword desc params post get put delete options resource requires
-  syn match Comment "^.*desc\s\".*\"$"
-
-  highlight def link grapeKeyword Identifier
-  highlight def link grapeDesc Comment
+  highlight ExtraWhitespace ctermbg=2 guibg=#859901
+  highlight Modified ctermfg=7 ctermbg=9 guifg=#fdf6e3 guibg=#cb4b16
 
   if &g:background == 'dark'
-    hi IndentGuidesOdd  ctermbg=8
-    hi IndentGuidesEven ctermbg=0
+    highlight IndentGuidesOdd ctermbg=8 guibg=#002b36
+    highlight IndentGuidesEven ctermbg=0 guibg=#073642
+    highlight SignColumn ctermbg=0 guibg=#073642
+    highlight ALEErrorSign ctermfg=9 ctermbg=0 guifg=#cb4b16 guibg=#073642
+    highlight ALEWarningSign ctermfg=9 ctermbg=0 guifg=#cb4b16 guibg=#073642
+    highlight VertSplit guibg=#073642 guifg=#586e75
   else
-    hi IndentGuidesOdd  ctermbg=15
-    hi IndentGuidesEven ctermbg=7
+    highlight IndentGuidesOdd ctermbg=15 guibg=#fdf6e3
+    highlight IndentGuidesEven ctermbg=7 guibg=#eee8d5
+    highlight SignColumn ctermbg=7 guibg=#eee8d5
+    highlight ALEErrorSign ctermfg=9 ctermbg=7 guifg=#cb4b16 guibg=#eee8d5
+    highlight ALEWarningSign ctermfg=9 ctermbg=7 guifg=#cb4b16 guibg=#eee8d5
+    highlight VertSplit guibg=#eee8d5 guifg=#586e75
   endif
 endfunc
 call SetCustomColors()
 
 augroup highlightstuff
-  " highlight spaces on an empty line
-  au BufEnter * match ExtraWhitespace /\s\+\%#\@!$/
+  " highlight extra white space
+  au InsertEnter * match ExtraWhitespace /\s\+\%#\@<!$/
+  au InsertLeave * match ExtraWhitespace /\s\+$/
 
   " set the custom colors when switching the colorscheme
   au ColorScheme * call SetCustomColors()
 augroup end
 
-" command to turn off slow features, so we can read large files easily
-command! LargeFile set syntax=off | NoMatchParan
-
-" <F7> toggles background mode
-call togglebg#map("<F7>")
-
 let NERDTreeIgnore=['\.git$', 'node_modules', '\.DS_Store$']
 let NERDTreeShowHidden=1
+let NERDTreeAutoDeleteBuffer=1
+let NERDTreeMinimalUI=1
+let NERDTreeMapOpenSplit="<C-x>"
+let NERDTreeMapOpenVSplit="<C-v>"
 
 " enable flow in javascript
 let g:javascript_plugin_flow = 1
+
+let g:loclist_is_open = 0
+function! ListToggle()
+  if g:loclist_is_open == 1
+    lclose
+    let g:loclist_is_open = 0
+  else
+    lopen
+    let g:loclist_is_open = 1
+  endif
+endfunction
+
+" auto color
+let g:colorizer_auto_filetype='css,html,sass,scss,jsx'
+let g:colorizer_auto_map = 1
 
 " keymappings
 "
@@ -346,8 +382,8 @@ noremap <Leader>. `.zz
 noremap <Leader>gx :silent execute "!gittower . &>/dev/null &" <BAR> redraw!<CR>
 " ,d remove line without registering it
 noremap <Leader>dd "_dd
-" ,l runs the last command in tmux
-noremap <Leader>l :VimuxRunLastCommand<CR>
+" " ,l runs the last command in tmux
+" noremap <Leader>l :VimuxRunLastCommand<CR>
 " ,z grow current split to max size
 noremap <Leader>z <C-w><BAR><C-w>_
 " ,Z make all splits the same size
@@ -401,3 +437,14 @@ noremap <leader>= gg=G<C-o><C-o>
 nnoremap <C-d> :q<cr>
 " do not include trailing/leading whitespace when selecting quoted strings
 nnoremap va" v2i"
+" get info
+nnoremap <leader>? :ALEHover<cr>
+" get details
+nnoremap <leader>d :ALEDetail<cr>
+" goto def
+nnoremap <leader>g :ALEGoToDefinition<cr>
+" goto first error
+nnoremap <leader>/ :ALEFirst<CR>
+" toggle loc list
+noremap <leader>l <ESC>:call ListToggle()<CR>
+
