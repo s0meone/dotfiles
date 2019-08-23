@@ -145,6 +145,14 @@ let g:qfenter_keymap.topen = ['<C-t>']
 " configure fzf
 set rtp+=/usr/local/opt/fzf
 command! -bang -nargs=* Ag call fzf#vim#ag(<q-args>, fzf#vim#with_preview('right:50%:hidden', '?'), <bang>0)
+command! -nargs=? -complete=dir Files call PreviewWithQuery(<q-args>)
+
+function! PreviewWithQuery(...)
+  let query = empty(a:000) ? "" : a:000[0]
+  let preview = fzf#vim#with_preview('right:50%:hidden', '?')
+  let extra = { 'options': extend(preview.options, ['--query', query]) }
+  return fzf#vim#files("", extra)
+endfunction
 
 " make switching modes fast again
 if ! has('gui_running')
@@ -182,8 +190,7 @@ endfunction
 let g:ale_fixers = {
       \  'javascript': ['prettier'],
       \  'typescript': ['prettier'],
-      \  'css': ['prettier'],
-      \  'ruby': ['prettier']
+      \  'ruby': ['rubocop']
       \}
 
 let g:ale_linters = {
@@ -417,5 +424,5 @@ nnoremap <Leader>r :VimuxRunLastCommand<CR>
 
 nnoremap <leader>f :Ag<CR>
 nnoremap <leader>F :exe ":Ag " . expand("<cword>")<CR>
-nnoremap <C-p> :FZF<CR>
-nnoremap <ESC>[80;5u :exe ":FZF --query=" . expand("<cword>")<CR>
+nnoremap <C-p> :Files<CR>
+nnoremap <ESC>[80;5u :exe ":Files " . expand("<cword>")<CR>
