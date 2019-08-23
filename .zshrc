@@ -33,17 +33,22 @@ alias dotfiles='/usr/bin/git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME'
 alias ip='echo $(curl -s https://api.ipify.org)'
 alias thinkas="sudo nmap -T5 -sS -oG - -p 51822 192.168.178.0/24 | grep 51822/open | cut -f1 -d$'\t'"
 
+export LC_ALL=en_US.UTF-8
 export WORKSPACE_PATH=/Users/daniel/Development/
 export EDITOR='/usr/local/bin/vim'
 export EVENT_NOKQUEUE=1
 export JAVA_HOME=$(/usr/libexec/java_home -v 1.8)
 export NVM_DIR="/Users/daniel/.nvm"
 export KEYTIMEOUT=1
+export GOPATH=$HOME/go
+export FZF_DEFAULT_OPTS="--history=$HOME/.fzf_history --extended"
+export FZF_DEFAULT_COMMAND='ag --hidden --ignore .git -g ""'
 
 export PATH=/usr/local/sbin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/X11/bin
 export PATH="/usr/local/opt/qt@5.5/bin:$PATH"
 export PATH="/usr/local/heroku/bin:$PATH"
 export PATH="$HOME/.rbenv/bin:$PATH"
+export PATH="$GOPATH/bin:$PATH"
 
 eval "$(rbenv init - zsh)";
 

@@ -21,3 +21,4 @@ My setup includes the following main components:
  * `vim`
  * `zsh`
  * `zsh-syntax-highlighter`
+ * `fzf`

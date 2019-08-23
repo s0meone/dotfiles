@@ -4,8 +4,8 @@ Pry.config.should_load_plugins = false
 Pry.config.editor = "vim"
 Pry.config.pager = false
 
-require 'awesome_print'
-AwesomePrint.pry!
+# require 'awesome_print'
+# AwesomePrint.pry!
 
 def pry_prompt(target_self, nest_level, pry, prefix="-")
   view_clip = Pry.view_clip(target_self)
