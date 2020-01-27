@@ -102,7 +102,7 @@ preexec () {
 }
 
 # Load nvm
-[ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"
+[ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh" --no-use
 
 # Load avn
 [[ -s "$HOME/.avn/bin/avn.sh" ]] && source "$HOME/.avn/bin/avn.sh"
@@ -114,3 +114,5 @@ ZSH_HIGHLIGHT_STYLES[function]='none'
 ZSH_HIGHLIGHT_STYLES[alias]='none'
 ZSH_HIGHLIGHT_STYLES[builtin]='none'
 source /usr/local/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+
+stty sane

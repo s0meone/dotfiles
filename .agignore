@@ -7,3 +7,13 @@ fitnesse/*
 *.min.*
 *.bak/*
 *.png
+*.jpg
+go.mod
+go.sum
+fixtures/
+testdata/
+yarn.lock
+package.lock
+*.svg
+*.pot
+*.xsd

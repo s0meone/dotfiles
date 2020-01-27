@@ -15,12 +15,13 @@ Plugin 'hail2u/vim-css3-syntax'            " CSS3 highlighting
 Plugin 'pangloss/vim-javascript'           " JavaScript highlighting
 Plugin 'HerringtonDarkholme/yats.vim'      " TypeScript highlighting
 Plugin 'mxw/vim-jsx'                       " JSX highlighting
-Plugin 'fleischie/vim-styled-components'   " StyledComponents highlighting
+" Plugin 'fleischie/vim-styled-components'   " StyledComponents highlighting
 Plugin 'pearofducks/ansible-vim'           " Ansible highlighting
 Plugin 'tpope/vim-rails'                   " Rails helpers
 Plugin 'Keithbsmiley/rspec.vim'            " RSpec helpers
 Plugin 'lmeijvogel/vim-yaml-helper'        " YAML helpers
 Plugin 'fatih/vim-go'                      " Golang highlighting and helpers
+Plugin 'styled-components/vim-styled-components' " template literal css support
 
 " Features
 Plugin 'lifepillar/vim-solarized8'         " Colorscheme
@@ -62,6 +63,7 @@ colorscheme solarized8
 " <F7> toggles background mode
 noremap <F7> :let &background = ( &background == "dark"? "light" : "dark" )<CR>
 
+set backupcopy=yes                 " copy and overwrite file, fixes error in Parcel
 set backup                         " enable backup
 set undofile                       " enable persistent undo
 set backupdir=~/.vim/backup
@@ -326,6 +328,23 @@ endfunction
 " auto color
 let g:colorizer_auto_filetype='css,html,sass,scss,jsx'
 let g:colorizer_auto_map = 1
+
+" grep search
+set grepprg=ag\ --nogroup\ --nocolor
+function! SearchInProject(...)
+  if a:0 > 0
+    let keyword = a:1
+  else
+    let keyword = input('Search for: ')
+  endif
+
+  if keyword != ""
+    exec ':grep! "' . keyword . '" | cw'
+    let @/ = keyword
+    set hlsearch
+    redraw!
+  endif
+endfunction
 
 " keymappings
 "
