@@ -15,13 +15,11 @@ Plugin 'hail2u/vim-css3-syntax'            " CSS3 highlighting
 Plugin 'pangloss/vim-javascript'           " JavaScript highlighting
 Plugin 'HerringtonDarkholme/yats.vim'      " TypeScript highlighting
 Plugin 'mxw/vim-jsx'                       " JSX highlighting
-" Plugin 'fleischie/vim-styled-components'   " StyledComponents highlighting
 Plugin 'pearofducks/ansible-vim'           " Ansible highlighting
 Plugin 'tpope/vim-rails'                   " Rails helpers
 Plugin 'Keithbsmiley/rspec.vim'            " RSpec helpers
 Plugin 'lmeijvogel/vim-yaml-helper'        " YAML helpers
 Plugin 'fatih/vim-go'                      " Golang highlighting and helpers
-Plugin 'styled-components/vim-styled-components' " template literal css support
 
 " Features
 Plugin 'lifepillar/vim-solarized8'         " Colorscheme
@@ -35,7 +33,7 @@ Plugin 'tpope/vim-abolish'                 " Add smart search/replace
 Plugin 'junegunn/fzf.vim'
 Plugin 'christoomey/vim-tmux-navigator'    " Navigate in and out tmux panels and vim buffers
 Plugin 'benmills/vimux'                    " Run commands in tmux
-Plugin 'jgdavey/vim-turbux'                " Run spec in tmux
+Plugin 'vim-test/vim-test'                 " Run test commands
 Plugin 'w0rp/ale'                          " Lint/Syntax/Error checker
 Plugin 'geoffharcourt/vim-matchit'         " Extend % to match more
 Plugin 'kana/vim-textobj-user'             " Basis for creating textobjects
@@ -155,6 +153,8 @@ function! PreviewWithQuery(...)
   let extra = { 'options': extend(preview.options, ['--query', query]) }
   return fzf#vim#files("", extra)
 endfunction
+let g:fzf_layout = { 'window': { 'width': 1, 'height': 0.4, 'yoffset': 1, 'border': 'top' } }
+" let g:fzf_layout = { 'down': '~40%' }
 
 " make switching modes fast again
 if ! has('gui_running')
@@ -165,6 +165,13 @@ if ! has('gui_running')
     au InsertLeave * set timeoutlen=1000
   augroup END
 endif
+
+" configure vim-test
+let test#strategy = "vimux"
+let g:test#preserve_screen = 1
+let test#javascript#mocha#file_pattern = '\.test\.ts' " the default is '(((^|/)test_.+)|_test)\.rb'
+let test#javascript#mocha#executable = 'yarn test'
+let g:test#echo_command = 0
 
 " configure git commit messages
 autocmd FileType gitcommit setlocal spell textwidth=72
@@ -192,17 +199,25 @@ endfunction
 let g:ale_fixers = {
       \  'javascript': ['prettier'],
       \  'typescript': ['prettier'],
-      \  'ruby': ['rubocop']
+      \  'typescriptreact': ['prettier'],
+      \  'ruby': ['rubocop'],
+      \  'go': ['gofmt']
       \}
 
 let g:ale_linters = {
-      \  'go': ['gofmt', 'govet']
+      \  'go': ['gopls', 'gofmt', 'go vet'],
+      \  'cpp': ['ccls']
       \}
 
 let g:ale_sign_error = '»'
 let g:ale_sign_warning = '»'
 let g:ale_sign_column_always = 1
 let g:ale_fix_on_save = 1
+let g:ale_completion_enabled = 1
+
+" configure vim-go
+let g:go_fmt_autosave=0
+let g:go_imports_autosave=0
 
 augroup loclistwrap
   autocmd!
@@ -346,6 +361,42 @@ function! SearchInProject(...)
   endif
 endfunction
 
+let g:projectionist_heuristics = {
+      \ "package.json": {
+      \   "test/*.test.ts": {
+      \     "alternate": [
+      \       "src/{}.ts",
+      \     ]
+      \   },
+      \   "src/*.test.ts": {
+      \     "alternate": [
+      \       "src/{}.ts",
+      \     ]
+      \   },
+      \   "src/*.ts": {
+      \     "alternate": [
+      \       "src/{}.test.ts",
+      \       "test/{}.test.ts",
+      \     ]
+      \   },
+      \   "test/*.test.tsx": {
+      \     "alternate": [
+      \       "src/{}.tsx",
+      \     ]
+      \   },
+      \   "src/*.test.tsx": {
+      \     "alternate": [
+      \       "src/{}.tsx",
+      \     ]
+      \   },
+      \   "src/*.tsx": {
+      \     "alternate": [
+      \       "src/{}.test.tsx",
+      \       "test/{}.test.tsx",
+      \     ]
+      \   },
+      \ }}
+
 " keymappings
 "
 " ,ss strip whitespace
@@ -354,8 +405,6 @@ nnoremap <Leader>ss :call StripWhitespace()<CR>
 noremap <Leader>n :NERDTreeFind<CR>
 " ,m toggle tree
 noremap <Leader>m :NERDTreeToggle<CR>
-" " ,r reload vimrc
-" noremap <Leader>r :so $MYVIMRC<CR>
 " ,q close
 noremap <Leader>q :q<CR>
 " ,w write
@@ -367,17 +416,11 @@ nnoremap <C-j> <C-w>j
 nnoremap <C-k> <C-w>k
 nnoremap <C-h> <C-w>h
 nnoremap <C-l> <C-w>l
-" ,tt run all specs in tmux
-nnoremap <Leader>tt :call VimuxRunCommand("rspec")<CR>
 " send ctrl+c to tmux
 nnoremap <C-c> :call VimuxRunCommand("\3")<CR>
 " indent with > and < but keep the visual selection
 vnoremap > >gv
 vnoremap < <gv
-" ,db runs migrate alias in tmux
-nnoremap <Leader>db :call VimuxRunCommand("migrate")<CR>
-" ,bi runs bundle install
-nnoremap <Leader>bi :call VimuxRunCommand("bundle install")<CR>
 " ,. go to last changed position
 noremap <Leader>. `.zz
 " ,gx opens gui git
@@ -397,11 +440,9 @@ nnoremap <Leader>o o<ESC>
 " ,O add empty line below without entering insert mode
 nnoremap <Leader>O O<ESC>
 " ,j
-nnoremap <Leader>j :%!python -m json.tool<CR>
+nnoremap <Leader>j :%!python -m json.tool --indent 2<CR>
 " ,\
 noremap <Leader>\ :TComment<CR>
-" <F6> toggles paste mode
-nnoremap <silent> <F6> :call PasteOnOff()<CR>
 " <F5> redraws
 nnoremap <silent> <F5> :redraw!<CR>
 " center search matches when jumping
@@ -412,6 +453,8 @@ nnoremap <expr> gs line("']")==line("'[") ? "`[v`]" : "'[V']"
 xmap gs <ESC>gs
 " <leader>a goes to alternative file and last edit position
 nnoremap <Leader>a :A<CR>`.
+" <leader>A goes to alternative file and last edit position in a vsplit
+nnoremap <Leader>A :AV<CR>`.
 " paste without replacing the register
 nnoremap <leader>p p`[v`]=
 " this mapping: change inside entire file, is annoyingly close to ciw
@@ -441,7 +484,14 @@ nnoremap <leader>l <ESC>:call ListToggle()<CR>
 " ,l runs the last command in tmux
 nnoremap <Leader>r :VimuxRunLastCommand<CR>
 
+" fzf finders
 nnoremap <leader>f :Ag<CR>
 nnoremap <leader>F :exe ":Ag " . expand("<cword>")<CR>
 nnoremap <C-p> :Files<CR>
 nnoremap <ESC>[80;5u :exe ":Files " . expand("<cword>")<CR>
+
+" test mappings
+nnoremap <leader>T :w<cr>:TestNearest<CR>
+nnoremap <leader>t :w<cr>:TestFile<CR>
+nnoremap <leader>tt :w<cr>:TestSuite<CR>
+nnoremap <leader>tl :w<cr>:TestLast<CR>
