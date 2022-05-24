@@ -14,11 +14,9 @@ My setup includes the following main components:
  * `nvm`
  * `pry`
  * `rbenv`
- * `reattach-to-user-namespace`
  * `the_silver_searcher` (`ag`)
  * `tmux`
  * `tmuxinator`
  * `vim`
  * `zsh`
- * `zsh-syntax-highlighter`
  * `fzf`
