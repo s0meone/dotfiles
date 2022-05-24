@@ -1,10 +1,10 @@
-log
 tags
 tmp
 *.log
 *.jmx
 fitnesse/*
 *.min.*
+*.map
 *.bak/*
 *.png
 *.jpg
@@ -17,3 +17,7 @@ package.lock
 *.svg
 *.pot
 *.xsd
+dist
+stats.json
+min-stats.json
+coverage
