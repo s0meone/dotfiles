@@ -13,10 +13,15 @@
 [merge]
 	ff = false
 [filter "lfs"]
-	clean = git-lfs clean %f
-	smudge = git-lfs smudge %f
+	clean = git-lfs clean -- %f
+	smudge = git-lfs smudge -- %f
 	required = true
+	process = git-lfs filter-process
 [commit]
 	gpgsign = true
 [gpg]
 	program = /usr/local/bin/gpg
+[pull]
+	ff = only
+[init]
+	defaultBranch = main
